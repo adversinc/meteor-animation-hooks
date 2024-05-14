@@ -1,19 +1,17 @@
 Animates elements inside a {{# Animate}} block, by removing and adding the `animate` class.
+Forked from appmill:animation-hooks to get rid of old jQuery, and also converted to TypeScript.
 
-Requires at least Meteor version 0.9.0
-
-This package uses the new UI_hooks, allowing for animation when elements get add AND removed.
+Tested for Meteor up to 2.15.
 
 It is repackaged -- with SVG element support -- from Fabian Vogesteller's meteor-animation-hooks repo, located here:
 https://github.com/frozeman/meteor-animation-helper
 
 
 
-
 Installation
 ============
 
-    $ meteor add appmill:animation-hooks
+    $ meteor add advers:animation-hooks
 
 Usage
 =====

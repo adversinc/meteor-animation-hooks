@@ -6,13 +6,19 @@ to include SVG element support
 @module package animation-hooks
 **/
 
+interface AnimateTemplate extends Blaze.TemplateInstance {
+	_animation_helper_parentNode: {
+		_uihooks: Record<string, Function>;
+	};
+}
 
-Template['Animate'].rendered = function(){
-    var animationElements = this.findAll('.animate');
+
+Template['Animate'].rendered = function(this: AnimateTemplate){
+    const animationElements = this.findAll('.animate');
 
     // HACK: initial animation rendered, as insertElement, doesn't seem to fire
     _.each(animationElements, function(item){
-        var $item = $(item);
+        const $item = $(item);
 
         $item.width(); // force-draw before animation
         $item.removeClass('animate');
@@ -21,7 +27,7 @@ Template['Animate'].rendered = function(){
 
 
     // add the parentNode te the instance, so we can access it in the destroyed function
-    this._animation_helper_parentNode = this.firstNode.parentNode;
+    this._animation_helper_parentNode = (this.firstNode as any).parentNode;
 
     this._animation_helper_parentNode._uihooks = {
         insertElement: function (node, next) {
@@ -70,7 +76,7 @@ Template['Animate'].rendered = function(){
 The destroyed method, which remove the hooks to make sure, they work again next time.
 
 */
-Template['Animate'].destroyed = function(){
+Template['Animate'].destroyed = function(this: AnimateTemplate){
     var template = this;
     Meteor.defer(function(){
         template._animation_helper_parentNode._uihooks = null;
